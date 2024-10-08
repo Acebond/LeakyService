@@ -1,0 +1,1 @@
+Compile a Release build and put the exe at `C:\LeakyService.exe` and with an admin cmd run `LeakyService.exe install` then open `services.msc` and start LeakyService. You should see a cmd.exe Windows pop-up which the service is creating. 
