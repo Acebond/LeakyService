@@ -12,8 +12,6 @@
 #define SERVICE_PATH L"C:\\LeakyService.exe"
 #define SERVICE_LOGF "C:\\LeakyServiceLog.txt"
 
-extern "C" void __fastcall gadget();
-
 // Global variables
 SERVICE_STATUS ServiceStatus;
 SERVICE_STATUS_HANDLE hStatus;
@@ -27,18 +25,8 @@ void WINAPI ServiceCtrlHandler(DWORD request);
 int InitService();
 void WriteToLog(const char* str);
 
-#pragma optimize("", off)
-void keepme(void) {
-    volatile int dummy = 0;
-    gadget();
-}
-#pragma optimize("", on)
-
-
 // Main function
 int main(int argc, char* argv[]) {
-
-    //gadget();
 
     if (argc > 1) {
         if (strcmp(argv[1], "install") == 0) {
@@ -277,13 +265,12 @@ void WINAPI ServiceMain(DWORD argc, LPSTR* argv) {
     // Service running loop
     while (ServiceStatus.dwCurrentState == SERVICE_RUNNING) {
         // Perform service tasks here
-        //const wchar_t* exePath = L"C:\\Windows\\System32\\cmd.exe";
-        const wchar_t* exePath = L"C:\\Windows\\SysWOW64\\cmd.exe";
+        const wchar_t* exePath = L"C:\\Windows\\System32\\cmd.exe";
 
         if (!LaunchProcessInUserSession(exePath)) {
             WriteToLog("Failed to launch process in user session.\n");
         }
-        //WriteToLog("Ran a loop.\n");
+        
         Sleep(5000);
     }
 }
